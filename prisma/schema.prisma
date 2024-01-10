@@ -27,6 +27,7 @@ model post {
     github String
     phonenumber String
     avatar String
+    p String
     authorId String
 
     @@index([authorId])
