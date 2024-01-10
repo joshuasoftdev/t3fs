@@ -12,13 +12,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
+model post {
     id        String      @id @default(cuid())
     createdAt DateTime @default(now())
 
     content String @db.VarChar(255)
     name String
+    email String
+    password String
+    personalWebsite String
+    facebook String
+    instagram String
+    twitter String
+    github String
+    phonenumber String
+    avatar String
     authorId String
 
     @@index([authorId])
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email   String   @unique
+  facebook   String
+  personalWebsite   String
+  instagram   String
+  twitter   String
+  github   String
+  phonenumber   String
+  authorId String
+
+  @@index([authorId])
 }

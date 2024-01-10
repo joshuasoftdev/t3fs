@@ -7,11 +7,17 @@ import {
 } from "@clerk/nextjs";
 import Head from "next/head";
 import Link from "next/link";
+import { post } from "../interfaces";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 import { api } from "~/utils/api";
 
 export default function Home() {
   const user = useUser();
+  const fetchedposts: any[] = /* Your fetched data */ [];
+  const posts: post[] = fetchedposts as post[];
 
   const { data } = api.post.getAll.useQuery();
 
@@ -41,7 +47,9 @@ export default function Home() {
             )}
             {!user.isSignedIn && (
               <SignInButton>
-                <button className="mr-4 w-20 rounded bg-white">Sign In</button>
+                <button className="flex w-20 justify-center rounded bg-white">
+                  Sign In
+                </button>
               </SignInButton>
             )}
             {!!user.isSignedIn && (
@@ -50,7 +58,18 @@ export default function Home() {
               </SignOutButton>
             )}
           </div>
-          <div>{data?.map((post) => <div>){post.content}</div>)}</div>
+          <div>
+            {data?.map((User) => (
+              <div key={User.id} className="text-5xl">
+                {User.email && <span>{User.email}</span>}
+              </div>
+            ))}
+          </div>
+          <div>
+            {data?.map((post) => (
+              <div key={post.id}>{post.email && <span>{post.email}</span>}</div>
+            ))}
+          </div>
           <SignIn path="/sign-in" routing="path" afterSignUpUrl="/sign-up" />
         </div>
       </main>
