@@ -21,7 +21,7 @@ export default function Home() {
   const posts: post[] = fetchedposts as post[];
 
   console.log(User);
-
+  //log user for id
   const { data } = api.post.getAll.useQuery();
 
   return (
