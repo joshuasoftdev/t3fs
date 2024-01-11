@@ -6,11 +6,11 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Head from "next/head";
-import Link from "next/link";
+//import Link from "next/link";
 import { post } from "../interfaces";
-import { PrismaClient } from "@prisma/client";
+//import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 
 import { api } from "~/utils/api";
 import { User } from "@clerk/nextjs/server";
@@ -18,7 +18,7 @@ import { User } from "@clerk/nextjs/server";
 export default function Home() {
   const user = useUser();
   const fetchedposts: any[] = /* Your fetched data */ [];
-  const posts: post[] = fetchedposts as post[];
+  //const posts: post[] = fetchedposts as post[];
 
   console.log(User);
   //log user for id
