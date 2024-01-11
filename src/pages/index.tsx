@@ -13,8 +13,13 @@ export default function Home() {
   const user = useUser();
 
   console.log(User);
-  const { data } = api.post.getAll.useQuery();
-
+  const { data, isLoading } = api.post.getAll.useQuery();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (!data) {
+    return <div>No data</div>;
+  }
   return (
     <>
       <Head>
@@ -29,10 +34,23 @@ export default function Home() {
       </header>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#654395] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Create{" "}
-            <span className="text-[hsl(280,100%,70%)]">T3 full stack</span> App
-          </h1>
+          {!user.isSignedIn && (
+            <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+              for <span className="text-[hsl(280,100%,70%)]">Sacramento</span>{" "}
+              only
+            </h1>
+          )}
+          {!!user.isSignedIn && (
+            <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+              built by{" "}
+              {data?.map((post) => (
+                <span key={post.id} className="text-[hsl(280,100%,70%)]">
+                  {post.name && <span>{post.name}</span>}
+                </span>
+              ))}{" "}
+              for sac
+            </h1>
+          )}
           <div>
             {!user.isSignedIn && (
               <h1 className="flex justify-center text-white"> Sign in </h1>
@@ -53,25 +71,31 @@ export default function Home() {
               </SignOutButton>
             )}
           </div>
-          <div>
-            {data?.map((post) => (
-              <div key={post.id} className="text-5xl">
-                {post.email && <span>{post.email}</span>}
-              </div>
-            ))}
-          </div>
-          <div>
-            {data?.map((post) => (
-              <div key={post.id}>{post.name && <span>{post.name}</span>}</div>
-            ))}
-          </div>
-          <div>
-            {data?.map((post) => (
-              <div key={post.id}>
-                {post.content && <span>{post.content}</span>}
-              </div>
-            ))}
-          </div>
+          {!!user.isSignedIn && (
+            <button className="rounded bg-slate-400">
+              {data?.map((post) => (
+                <div key={post.id} className="text-5xl">
+                  {post.email && <span>{post.email}</span>}
+                </div>
+              ))}
+            </button>
+          )}
+          {!!user.isSignedIn && (
+            <div>
+              {data?.map((post) => (
+                <div key={post.id}>{post.name && <span>{post.name}</span>}</div>
+              ))}
+            </div>
+          )}
+          {!!user.isSignedIn && (
+            <div>
+              {data?.map((post) => (
+                <div key={post.id}>
+                  {post.content && <span>{post.content}</span>}
+                </div>
+              ))}
+            </div>
+          )}
           <SignIn path="/sign-in" routing="path" afterSignUpUrl="/sign-up" />
         </div>
       </main>
