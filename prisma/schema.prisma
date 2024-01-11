@@ -27,9 +27,8 @@ model post {
     github String
     phonenumber String
     avatar String
-    p String
     authorId String
-
+    users User[]
     @@index([authorId])
 }
 
@@ -44,6 +43,6 @@ model User {
   github   String
   phonenumber   String
   authorId String
-
+  posts post[]
   @@index([authorId])
 }

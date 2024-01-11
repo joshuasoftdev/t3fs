@@ -13,11 +13,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 import { api } from "~/utils/api";
+import { User } from "@clerk/nextjs/server";
 
 export default function Home() {
   const user = useUser();
   const fetchedposts: any[] = /* Your fetched data */ [];
   const posts: post[] = fetchedposts as post[];
+
+  console.log(User);
 
   const { data } = api.post.getAll.useQuery();
 
@@ -60,15 +63,22 @@ export default function Home() {
             )}
           </div>
           <div>
-            {data?.map((User) => (
-              <div key={User.id} className="text-5xl">
-                {User.email && <span>{User.email}</span>}
+            {data?.map((post) => (
+              <div key={post.id} className="text-5xl">
+                {post.email && <span>{post.email}</span>}
               </div>
             ))}
           </div>
           <div>
             {data?.map((post) => (
-              <div key={post.id}>{post.email && <span>{post.email}</span>}</div>
+              <div key={post.id}>{post.name && <span>{post.name}</span>}</div>
+            ))}
+          </div>
+          <div>
+            {data?.map((post) => (
+              <div key={post.id}>
+                {post.content && <span>{post.content}</span>}
+              </div>
             ))}
           </div>
           <SignIn path="/sign-in" routing="path" afterSignUpUrl="/sign-up" />
